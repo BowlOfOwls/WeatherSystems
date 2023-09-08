@@ -73,7 +73,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _Distance: 500
-    - _DistanceBlend: 500
+    - _DistanceBlend: 3082
     - _DstBlend: 0
     - _EdgeBlend: 1.2
     - _GlossMapScale: 1
@@ -86,8 +86,8 @@ Material:
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SpeedX: 1
-    - _SpeedY: 1
+    - _SpeedX: 3
+    - _SpeedY: 3
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1

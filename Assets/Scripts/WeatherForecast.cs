@@ -3,6 +3,8 @@ using UnityEngine.Networking;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DigitalRuby.WeatherMaker;
+using static InformationPanel;
 
 public class WeatherForecast : MonoBehaviour
 {
@@ -64,6 +66,21 @@ public class WeatherForecast : MonoBehaviour
                         forecast = weatherData,
                         period = period
                     });
+
+                    switch (period)
+                    {
+                        case 0:
+                            WeatherMakerDayNightCycleManagerScript.Instance.TimeOfDay = 33500f;
+                            break;
+                        case 1:
+                            WeatherMakerDayNightCycleManagerScript.Instance.TimeOfDay = 50000f;
+                            break;
+                        case 2:
+                            WeatherMakerDayNightCycleManagerScript.Instance.TimeOfDay = 76000f;
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 else
                 {

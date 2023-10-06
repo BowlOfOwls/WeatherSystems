@@ -3,14 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using static WeatherForecast;
 using TMPro;
+using System;
+using System.Text.RegularExpressions;
+using UnityEngine.Windows;
 
 public class InformationPanel : MonoBehaviour
 {
     [SerializeField] private WeatherForecast weatherForecast;
     [SerializeField] private TMP_Text displayText;
-    private enum Location {North, South, East, West, Central};
+    public enum Location {North, South, East, West, Central};
     [SerializeField] private Location location;
     [SerializeField] private string locationName;
+
+    public enum WeatherConditions { RAIN, SHOWERS, THUNDERYSHOWERS, FAIR, HAZY, PARTLYCLOUDY, CLOUDY, OVERCAST }
+
+    public event EventHandler<OnAPIUpdateChangeEventArgs> OnAPIUpdateChangeEvent;
+
+    public class OnAPIUpdateChangeEventArgs: EventArgs
+    {
+        public WeatherConditions weatherConditions;
+        public Location location;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +62,7 @@ public class InformationPanel : MonoBehaviour
                             break;
 
                     }
+                    UpdateWeatherCondition(item.periods[e.period].regions.east);
                     displayText.SetText(text);
                 }
 
@@ -61,6 +75,86 @@ public class InformationPanel : MonoBehaviour
         else
         {
             Debug.LogError("weatherData or items is null");
+        }
+    }
+
+    private void UpdateWeatherCondition (string weatherConditionString)
+    {
+        string weatherConditionStringFirstWord = weatherConditionString.Split(new char[] { ' ' })[0];
+        switch (weatherConditionStringFirstWord)
+        {
+            case "Rain":
+            {
+                    OnAPIUpdateChangeEvent?.Invoke(this, new OnAPIUpdateChangeEventArgs
+                    {
+                        weatherConditions = WeatherConditions.RAIN,
+                        location = location
+                    }) ;
+                break;
+                }
+            case "Showers":
+                {
+                    OnAPIUpdateChangeEvent?.Invoke(this, new OnAPIUpdateChangeEventArgs
+                    {
+                        weatherConditions = WeatherConditions.SHOWERS,
+                        location = location
+                    });
+                    break;
+                }
+            case "Thundery":
+                {
+                    OnAPIUpdateChangeEvent?.Invoke(this, new OnAPIUpdateChangeEventArgs
+                    {
+                        weatherConditions = WeatherConditions.THUNDERYSHOWERS,
+                        location = location
+                    });
+                    break;
+                }
+            case "Fair":
+                {
+                    OnAPIUpdateChangeEvent?.Invoke(this, new OnAPIUpdateChangeEventArgs
+                    {
+                        weatherConditions = WeatherConditions.FAIR,
+                        location = location
+                    });
+                    break;
+                }
+            case "Hazy":
+                {
+                    OnAPIUpdateChangeEvent?.Invoke(this, new OnAPIUpdateChangeEventArgs
+                    {
+                        weatherConditions = WeatherConditions.HAZY,
+                        location = location
+                    });
+                    break;
+                }
+            case "Partly":
+                {
+                    OnAPIUpdateChangeEvent?.Invoke(this, new OnAPIUpdateChangeEventArgs
+                    {
+                        weatherConditions = WeatherConditions.PARTLYCLOUDY,
+                        location = location
+                    });
+                    break;
+                }
+            case "Cloudy":
+                {
+                    OnAPIUpdateChangeEvent?.Invoke(this, new OnAPIUpdateChangeEventArgs
+                    {
+                        weatherConditions = WeatherConditions.CLOUDY,
+                        location = location
+                    });
+                    break;
+                }
+            case "Overcast":
+                {
+                    OnAPIUpdateChangeEvent?.Invoke(this, new OnAPIUpdateChangeEventArgs
+                    {
+                        weatherConditions = WeatherConditions.OVERCAST,
+                        location = location
+                    });
+                    break;
+                }
         }
     }
 }

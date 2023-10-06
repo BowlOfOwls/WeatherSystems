@@ -138,6 +138,8 @@ namespace DigitalRuby.WeatherMaker
             }
         }
 
+
+
         private void DisplayFPS()
         {
             if (LabelFPS != null && ShowFPS)
@@ -152,6 +154,13 @@ namespace DigitalRuby.WeatherMaker
                 }
             }
         }
+
+        //Wei Kang's additional information
+        //_____________________________________________________________________________________________________________
+        //_____________________________________________________________________________________________________________
+        [SerializeField] GameInput GameInput;
+
+
 
         private void Start()
         {
@@ -198,6 +207,43 @@ namespace DigitalRuby.WeatherMaker
             if (Camera.main != null && Camera.main.orthographic && WeatherMapImage != null)
             {
                 WeatherMapImage.gameObject.SetActive(false);
+            }
+
+            //More of Wei Kang's add ons
+            //_____________________________________________________________________________________________________________
+            //_____________________________________________________________________________________________________________
+            GameInput.OnWeatherChangeEvent += GameInput_OnWeatherChangeEvent;
+        }
+
+        //_____________________________________________________________________________________________________________
+        //_____________________________________________________________________________________________________________
+        //_____________________________________________________________________________________________________________
+
+        private void GameInput_OnWeatherChangeEvent(object sender, GameInput.OnWeatherChangeEventArgs e)
+        {
+            Debug.Log(e.cloud);
+            string text = e.cloud;
+            text = text.Replace("-", string.Empty).Replace(" ", string.Empty).Replace("(", string.Empty).Replace(")", string.Empty);
+            clouds = (WeatherMakerCloudType)System.Enum.Parse(typeof(WeatherMakerCloudType), text);
+            UpdateClouds();
+
+
+            if (WeatherMakerPrecipitationManagerScript.Instance != null)
+            {
+                WeatherMakerPrecipitationManagerScript.Instance.Precipitation = (e.toggleRain ? WeatherMakerPrecipitationType.Rain : WeatherMakerPrecipitationType.None);
+                WeatherMakerPrecipitationManagerScript.Instance.PrecipitationIntensity = IntensitySlider.value;
+            }
+
+
+            if (WeatherMakerThunderAndLightningScript.Instance != null)
+            {
+                WeatherMakerThunderAndLightningScript.Instance.EnableLightning = e.toggleThunder;
+            }
+
+
+            if (WeatherMakerPrecipitationManagerScript.Instance != null)
+            {
+                WeatherMakerPrecipitationManagerScript.Instance.PrecipitationIntensity = e.intensityVal;
             }
         }
 
@@ -586,6 +632,8 @@ namespace DigitalRuby.WeatherMaker
             if (WeatherMakerDayNightCycleManagerScript.HasInstance())
             {
                 WeatherMakerDayNightCycleManagerScript.Instance.TimeOfDay = val;
+                //Debug.Log(val);
+                //Debug.Log(val.GetType());
             }
         }
     }

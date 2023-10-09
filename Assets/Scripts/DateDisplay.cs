@@ -33,6 +33,7 @@ public class DateDisplay : MonoBehaviour
             dateDisplay.SetActive(true);
             delay = 1.5f;
         }
+
         else
         {
             delay -= Time.deltaTime;
@@ -73,7 +74,7 @@ public class DateDisplay : MonoBehaviour
         }
 
 
-        displayText.SetText("Date forward: " + dateTime.ToString("yyyy-MM-dd") + "\n Time period: " + (timeForward % 3 != 0 ? 3 + timeForward % 3 : 0));
+        displayText.SetText("Date forward: " + dateTime.ToString("yyyy-MM-dd") + "\n Time period: " + (ReturnRemainderFromThree(timeForward)));
     }
 
     private void SendDateUpdate()
@@ -85,7 +86,12 @@ public class DateDisplay : MonoBehaviour
         OnDateChangeEvent?.Invoke(this, new OnDateChangeEventArgs
         {
             date = dateTime.ToString("yyyy-MM-dd"),
-            period = timeForward % 3 != 0 ? 3 + timeForward % 3 : 0 
+            period = ReturnRemainderFromThree(timeForward) 
         });
+    }
+
+    private int ReturnRemainderFromThree(int total)
+    {
+        return total % 3 != 0 ? 3 + timeForward % 3 : 0;
     }
 }

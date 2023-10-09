@@ -9,6 +9,7 @@ using static InformationPanel;
 public class WeatherForecast : MonoBehaviour
 {
     public event EventHandler<OnUpdateWeatherForecastEEventArgs> updateWeatherForecastEvent;
+
     public class OnUpdateWeatherForecastEEventArgs : EventArgs
     {
         public WeatherData forecast;
@@ -22,6 +23,7 @@ public class WeatherForecast : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         StartCoroutine(GetWeatherForecast("https://api.data.gov.sg/v1/environment/24-hour-weather-forecast"));
         dateDisplay.OnDateChangeEvent += DateDisplay_OnDateChangeEvent;
     }
@@ -69,13 +71,13 @@ public class WeatherForecast : MonoBehaviour
 
                     switch (period)
                     {
-                        case 0:
+                        case 1:
                             WeatherMakerDayNightCycleManagerScript.Instance.TimeOfDay = 33500f;
                             break;
-                        case 1:
+                        case 2:
                             WeatherMakerDayNightCycleManagerScript.Instance.TimeOfDay = 50000f;
                             break;
-                        case 2:
+                        case 0:
                             WeatherMakerDayNightCycleManagerScript.Instance.TimeOfDay = 76000f;
                             break;
                         default:

@@ -114,4 +114,5 @@ public class LocationIntelligence : MonoBehaviour
         LightCloudShadow.SetActive(false);
         FairCloudShadow.SetActive(false);
     }
+
 }

@@ -25,6 +25,22 @@ public class DateDisplay : MonoBehaviour
         public int period;
     }
 
+    public void Update()
+    {
+
+        if (Input.GetKeyDown(KeyCode.E) && timeForward < 0)
+        {
+            timeForward++;
+            SendDateUpdate();
+        }
+        else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            timeForward--;
+            SendDateUpdate();
+        }
+    }
+
+
     private void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Q)) 
@@ -44,24 +60,16 @@ public class DateDisplay : MonoBehaviour
             }
         }
 
+        /*
         if (Input.GetKeyUp(KeyCode.E) || Input.GetKeyUp(KeyCode.Q))
         {
             accelerate = 1.5f;
         }
+        */
 
 
 
-        if (Input.GetKeyDown(KeyCode.E) && timeForward < 0)
-        {
-            timeForward++;
-            SendDateUpdate();
-        }
-        else if (Input.GetKeyDown(KeyCode.Q))
-        {
-            timeForward--;
-            SendDateUpdate();
-        }
-
+        /*
         if (Input.GetKey(KeyCode.E) && timeForward < 0)
         {
             timeForward += Mathf.Min((int) Mathf.Log( accelerate), 3);
@@ -72,6 +80,7 @@ public class DateDisplay : MonoBehaviour
             timeForward -= Mathf.Min((int)Mathf.Log(accelerate), 3);
             SendDateUpdate();
         }
+        */
 
 
         displayText.SetText("Date forward: " + dateTime.ToString("yyyy-MM-dd") + "\n Time period: " + (ReturnRemainderFromThree(timeForward)));
@@ -86,7 +95,7 @@ public class DateDisplay : MonoBehaviour
         OnDateChangeEvent?.Invoke(this, new OnDateChangeEventArgs
         {
             date = dateTime.ToString("yyyy-MM-dd"),
-            period = ReturnRemainderFromThree(timeForward) 
+            period = ReturnRemainderFromThree(timeForward)
         });
     }
 

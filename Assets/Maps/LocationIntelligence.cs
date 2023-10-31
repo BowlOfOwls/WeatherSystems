@@ -29,12 +29,20 @@ public class LocationIntelligence : MonoBehaviour
     {
         FairCloudShadowSetActive();
         informationalPanel.OnAPIUpdateChangeEvent += InformationalPanel_OnAPIUpdateChangeEvent;
+
     }
 
     private void InformationalPanel_OnAPIUpdateChangeEvent(object sender, OnAPIUpdateChangeEventArgs e)
     {
         weatherCondition = e.weatherConditions;
         location = e.location;
+
+        EnterFieldEvent?.Invoke(this, new EnterFieldEventArgs
+        {
+
+            weatherCondition = e.weatherConditions,
+            location = e.location
+        });
     }
 
     private void OnTriggerEnter(Collider other)
